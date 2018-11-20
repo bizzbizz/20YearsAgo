@@ -968,7 +968,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Value: 0.8
   HoleSmooth: 0
-  textureSource: {fileID: 2800000, guid: d40bd876fc56a334cb29f9e1493a7314, type: 3}
+  textureSource: {fileID: 2800000, guid: 16dfb615360ec1246b3ff4bc54749e99, type: 3}
 --- !u!212 &1299848324
 SpriteRenderer:
   m_ObjectHideFlags: 0
