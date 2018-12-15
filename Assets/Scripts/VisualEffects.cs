@@ -11,8 +11,8 @@ public class VisualEffects : MonoBehaviour
     public Texture textureSource;
 
     public float AnimSpeed;
-    //public Vector3 NoiseOffset;
-    //public Vector3 NoiseScale;
+    public Vector3 NoiseOffset;
+    public Vector4 NoiseScale = new Vector4(1f, .2f, .8f, .6f);
 
     public bool isGhost;
     public float Alpha { get; set; }//0..1
@@ -20,6 +20,7 @@ public class VisualEffects : MonoBehaviour
 
     const float AlphaScale = 0.5f;//only affects the shader
     public static bool Haze = false;
+    public static bool Mist = true;
     private float _TimeX = 0f;
 
     void Start()
@@ -34,9 +35,9 @@ public class VisualEffects : MonoBehaviour
 
         _rend.material.SetVectorArray("_Light", SingletonGame.Instance.player.Weapon.GetFlashLightPolygon());
 
-        //NoiseOffset.x += (AnimSpeed * Time.deltaTime);
-        //NoiseOffset.z += (AnimSpeed * Time.deltaTime);
-        //NoiseOffset = Quaternion.Euler(new Vector3(0.0f, AnimSpeed * Time.deltaTime, 0.0f)) * NoiseOffset;
+        NoiseOffset.x += (AnimSpeed * Time.deltaTime);
+        NoiseOffset.z += (AnimSpeed * Time.deltaTime);
+        NoiseOffset = Quaternion.Euler(new Vector3(0.0f, AnimSpeed * Time.deltaTime, 0.0f)) * NoiseOffset;
 
         UpdatePropertyBlock();
     }
@@ -46,6 +47,8 @@ public class VisualEffects : MonoBehaviour
         var mp = new MaterialPropertyBlock();
         mp.SetTexture("_MainTex", textureSource);
         mp.SetFloat("_IsHazy", Haze ? 1f : 0f);
+        mp.SetFloat("_Mist", Mist ? 1f : 0f);
+
         if (!Haze)
             _TimeX = 0f;
         if (isGhost || Haze)
@@ -57,8 +60,8 @@ public class VisualEffects : MonoBehaviour
             mp.SetFloat("_TimeX", _TimeX);
         }
 
-        //mp.SetVector("_NScale", NoiseScale);
-        //mp.SetVector("_NOffset", NoiseOffset);
+        mp.SetVector("_NScale", NoiseScale);
+        mp.SetVector("_NOffset", NoiseOffset);
         _rend.SetPropertyBlock(mp);
     }
 }
