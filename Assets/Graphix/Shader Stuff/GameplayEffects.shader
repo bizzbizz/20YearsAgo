@@ -6,7 +6,7 @@ Shader "20YA/GameplayEffects"
 	{
 		_MainTex("Texture", 2D) = "white" {}
 		//_NOffset("Noise offset", Vector) = (0., 0., 0.)
-		_NScale("Noise scale", Vector) = (1., .2, .8, .6)
+		//_NScale("Noise scale", Vector) = (1., .2, .8)
 	}
 		SubShader
 	{
@@ -47,7 +47,7 @@ Shader "20YA/GameplayEffects"
 			float _Mist = 0.0;
 
 			float3 _NOffset;//noise offset
-			float4 _NScale;//noise scale
+			float3 _NScale;//noise scale
 
 			float4 _Light[4];//[0].zw = light origin world pos, [1].z = world scale light max distance squared, [1].w = on/off
 			float _IsGhost;
@@ -69,7 +69,7 @@ Shader "20YA/GameplayEffects"
 			// The noise function returns a value in the range -1.0f -> 1.0f
 			float noise(float2 uv)
 			{
-				uv = _NOffset + _NScale.xy * uv;
+				uv = _NOffset.xz + _NScale.xy * uv;
 
 				float2 p = floor(uv);
 				float2 f = frac(uv);
@@ -78,8 +78,7 @@ Shader "20YA/GameplayEffects"
 				float n = p.x + p.y*57.0 ;
 
 				return 
-					_NScale.zw * 
-					float2(.004, .003) * 
+					_NScale.z * .001 * 
 					(1.0 - lerp(
 							lerp(
 								hash(n + 0.0), hash(n + 1.0), f.x

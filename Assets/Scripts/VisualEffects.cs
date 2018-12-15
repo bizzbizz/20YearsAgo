@@ -12,7 +12,7 @@ public class VisualEffects : MonoBehaviour
 
     public float AnimSpeed;
     public Vector3 NoiseOffset;
-    public Vector4 NoiseScale = new Vector4(1f, .2f, .8f, .6f);
+    public Vector3 NoiseScale = new Vector4(1f, .2f, .8f);
 
     public bool isGhost;
     public float Alpha { get; set; }//0..1
